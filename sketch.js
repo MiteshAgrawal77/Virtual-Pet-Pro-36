@@ -29,7 +29,7 @@ function setup() {
 
   feed=createButton("Feed the Pet");
   feed.position(700,95);
-  feed.mousePressed(Feed);
+  feed.mousePressed(feedDog);
 
   addFood=createButton("Add Food");
   addFood.position(800,95);
@@ -62,7 +62,22 @@ function feedDog(){
 
   //write code here to update food stock and last fed time
 
-  var food_stock_val = foodobj.getFoodStock();
+  var hr = hour()
+
+  database.ref('/').update({
+    lastFeed:hr
+  })
+
+  if(lastFeed>= 12){
+    text("Last Feed : lastFeed-12 PM", 350,30);
+  } else if(lastFeed==0){
+    text("Last Feed : 12 AM", 350,30);
+  } else{
+    text("Last Feed : lastFeed AM", 350,30);
+  }
+  
+
+  var food_stock_val = foodObj.getFoodStock();
   if(food_stock_val <= 0){
     foodObj.updateFoodStock(food_stock_val *0);
   } else{
